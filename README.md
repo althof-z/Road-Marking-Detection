@@ -12,19 +12,20 @@ Edge Detection merupakan suatu metode untuk mengetahui lokasi dari marka jalan t
 Tujuan yang didapatkan dari projek peneliatian ini yaitu, Edge Detection ini dapat menjadi salah satu
 pendukung driver assistant maupun untuk autonomous navigation yang termasuk bagian dari inteligent transportation system.  Contohnya adalah sulitnya menentukan marka jalannya pada berbagai kondisi, terutama terhadap noise yang ada di lingkungan sekitarnya, seperti bayangan, garis-garis lain yang terdapat pada jalan, dan juga marka jalan yang sudah tidak utuh lagi atau marka jalan yang terputus-putus.  
 
+Terdapat beberapa hal yang dilakukan untuk Deteksi Tepi Garis, beberapa metode yang saya pakai: 
 
-## Tahapan Project
+- Pemrosesan Citra: Pemrosesan citra melibatkan pengubahan gambar asli menjadi representasi yang lebih cocok untuk analisis lebih lanjut. Dalam kasus ini, kita melakukan konversi gambar ke skala keabuan menggunakan fungsi `cv2.cvtColor` dengan parameter `cv2.COLOR_BGR2GRAY`. Hal ini dilakukan untuk menghilangkan informasi warna dan menggantinya dengan informasi kecerahan piksel.
 
-Terdapat beberapa tahapan dalam melakukan Deteksi Tepi Garis, beberapa metode yang saya pakai: 
+- Segmentasi: Tahapan segmentasi digunakan untuk membagi gambar menjadi beberapa bagian yang memiliki karakteristik atau objek yang serupa. Dalam konteks ini, segmentasi dapat digunakan untuk mengidentifikasi dan memisahkan marka jalan dari latar belakangnya. Metode segmentasi seperti pemrosesan ambang atau pengelompokan piksel dapat digunakan untuk mencapai tujuan ini. Setelah segmentasi, marka jalan yang terisolasi dapat dijadikan fokus untuk analisis lanjutan atau pengambilan keputusan yang berkaitan dengan marka jalan tersebut.
+  
+- Deteksi Tepi: Deteksi tepi digunakan untuk menemukan perubahan tajam dalam intensitas piksel pada gambar. Kami menggunakan metode operator Canny, yang mengambil gambar skala keabuan sebagai input dan menghasilkan gambar biner yang menunjukkan lokasi tepi yang terdeteksi. Dalam kode, kami menggunakan fungsi `cv2.Canny` dengan parameter ambang batas yang mengontrol kepekaan deteksi tepi.
 
-- Pemrosesan Citra : Pemrosesan citra digunakan untuk mengubah gambar asli menjadi representasi yang lebih cocok untuk analisis lebih lanjut. Dalam tahapan ini saya melakukan konversi gambar ke skala keabuan
-- Deteksi Tepi : Deteksi tepi digunakan untuk menemukan perubahan tajam dalam intensitas piksel pada gambar. Metode operator Canny, saya pilih untuk digunakan mengidentifikasi tepi pada gambar.
-- Region Masking : Region Masking Berguna untuk memilih daerah yang akan di deteksi bagian marka jalan. Digunakan dengan Membuat shape yang sesuai dengan marka jalan yang akan diambil.
-- Line Displaying : Tahapan ini merupakan tahapan akhir dari Project ini, Dilakukan dengan menanpilkan line yang sudah didapat dari tahapan sebelumnya lalu menampilkannya pada gambar.
+- Region Masking: Region Masking merupakan proses memilih daerah tertentu pada gambar yang ingin diolah lebih lanjut. Dalam hal ini, kita membuat shape yang sesuai dengan marka jalan yang ingin diambil. Kami menggunakan poligon segitiga sebagai masker menggunakan fungsi `cv2.fillPoly` untuk mengisi poligon ke dalam masker dengan nilai 255. Masker ini akan digunakan untuk mengisolasi bagian gambar yang berada di dalam segitiga.
+
+- Line Displaying: Tahapan ini merupakan tahapan akhir dari proyek ini, di mana garis-garis hasil deteksi tepi dan pemilihan region akan ditampilkan pada gambar asli. Dalam kode, kita menggunakan loop untuk menggambar setiap garis yang didapatkan dari fungsi HoughLinesP menggunakan fungsi `cv2.line`, dengan warna merah (0,0,255) dan lebar garis 1.
 
 
-
-## Penjelasan Kode
+## Penjelasan Tahapan Project
 
 #### Import Library
 ```bash
